@@ -13,5 +13,6 @@ app.set("view engine", "ejs");  //html이라고 생각하면 됨.
 
 //use -> middleware를 등록해주는 메서드
 app.use("/", home);
+app.use(express.static(`${__dirname}/src/public`));
 
 module.exports = app;
