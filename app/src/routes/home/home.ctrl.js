@@ -1,15 +1,42 @@
 "use strict";
 
-const home = (req, res)=>{
-    //기능
-    res.render("home/index");
+const users = {
+    id: ["woorimIT", "나개발", "rlaxlawkd"],
+    pwd: ["1234", "1234", "123456"]
 };
 
-const login = (req, res)=>{
-    res.render("home/login");
+const output = {
+    home: (req, res)=>{
+        //기능
+        res.render("home/index");
+    },
+    login: (req, res)=>{
+        res.render("home/login");
+    }
+};
+
+const process = {
+    login: (req, res)=>{
+        const id = req.body.id;
+        const pwd = req.body.pwd;
+
+        if (users.id.includes(id)) {
+            const idx = users.id.indexOf(id);
+            if (users.pwd[idx]===pwd) {
+                return res.json({
+                    success: true, 
+                });
+            }
+        }
+
+        return res.json({
+            success: false,
+            msg: "로그인에 실패했습니다."
+        });
+    },
 };
 
 module.exports = {
-    home, //이것은 hello: hello, 와 같은 의미(key만 입력하면 value는 key와 동일한 값.)
-    login,
+    output,
+    process
 };

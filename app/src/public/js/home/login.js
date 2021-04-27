@@ -17,6 +17,6 @@ function login() {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(req)   //json 객체는 문자열로 감싸져 있다.
-    })
+        body: JSON.stringify(req)
+    }).then((res)=>res.json()).then((res)=>console.log(res));
 }
