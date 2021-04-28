@@ -17,6 +17,16 @@ class UserStorage {
         }, {});
         return newUsers;
     }
+
+    static getUserInfo(id) {
+        const userinfo = {};
+        const idx = this.#users.id.indexOf(id);
+        if (idx!==-1) {
+            userinfo.id = id;
+            userinfo.pwd = this.#users.pwd[idx];
+        }
+        return userinfo;
+    }
 }
 
 module.exports = UserStorage;
