@@ -2,16 +2,21 @@
 const fs = require('fs').promises;
 
 class UserStorage {
-    static getUsers(...fields) {
-        // const users = this.#users;
+    static getUsers(isAll, ...fields) {
+        return fs.readFile('./src/databases/users.json')
+            .then((data)=>{
+                const users = JSON.parse(data);
+                if (isAll) return users;
 
-        const newUsers = fields.reduce((newUsers, field)=>{
-            if (users.hasOwnProperty(field)) {
-                newUsers[field] = users[field];
-            }
-            return newUsers;
-        }, {});
-        return newUsers;
+                const newUsers = fields.reduce((newUsers, field)=>{
+                    if (users.hasOwnProperty(field)) {
+                        newUsers[field] = users[field];
+                    }
+                    return newUsers;
+                }, {});
+                return newUsers;
+            })
+            .catch(console.error);
     }
 
     static getUserInfo(id) {
@@ -30,11 +35,16 @@ class UserStorage {
             .catch(console.error);
     }
 
-    static registerUser(userInfo) {
-        // this.#users.id.push(userInfo.id);
-        // this.#users.pwd.push(userInfo.pwd);
-        // this.#users.name.push(userInfo.name);
-        // console.log(this.#users);
+    static async registerUser(userInfo) {
+        const users = await this.getUsers(true);
+        //데이터 추가
+        if (users.id.includes(userInfo.id)) {
+            return false;
+        }
+        users.id.push(userInfo.id);
+        users.name.push(userInfo.name);
+        users.pwd.push(userInfo.pwd);
+        fs.writeFile('./src/databases/users.json', JSON.stringify(users));
 
         return true;
     }

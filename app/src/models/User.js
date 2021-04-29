@@ -23,13 +23,13 @@ class User {
         }
     }
 
-    register() {
-        const result = UserStorage.registerUser(this.body);
+    async register() {
+        const result = await UserStorage.registerUser(this.body);
 
         if (result) {
             return { success: true };
         } else {
-            return { success: false, msg: "회원가입 중 문제가 발생했습니다." };
+            return { success: false, msg: "이미 존재하는 아이디입니다." };
         }
     }
 }
