@@ -27,6 +27,15 @@ class UserStorage {
         }
         return userinfo;
     }
+
+    static registerUser(userInfo) {
+        this.#users.id.push(userInfo.id);
+        this.#users.pwd.push(userInfo.pwd);
+        this.#users.name.push(userInfo.name);
+        console.log(this.#users);
+
+        return true;
+    }
 }
 
 module.exports = UserStorage;

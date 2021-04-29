@@ -10,7 +10,6 @@ class User {
 
     login() {
         const { id, pwd } = UserStorage.getUserInfo(this.body.id);
-        console.log({ id, pwd });
 
         if (id) {
             if (this.body.pwd===pwd) {
@@ -21,6 +20,16 @@ class User {
             }
         } else {
             return { success: false, msg: "아이디가 존재하지 않습니다."};
+        }
+    }
+
+    register() {
+        const result = UserStorage.registerUser(this.body);
+
+        if (result) {
+            return { success: true };
+        } else {
+            return { success: false, msg: "회원가입 중 문제가 발생했습니다." };
         }
     }
 }
