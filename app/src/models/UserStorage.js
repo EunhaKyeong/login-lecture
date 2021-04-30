@@ -6,7 +6,7 @@ class UserStorage {
         return new Promise((resolve, reject)=>{
             mysql.query(`SELECT id, pwd FROM users WHERE id=?;`, id, (err, data)=>{
                 if (err) reject(`${err}`);
-                resolve(data[0]);
+                else resolve(data[0]);
             });
         });
     }
@@ -18,7 +18,7 @@ class UserStorage {
                 [userInfo.id, userInfo.pwd, userInfo.name], 
                 (err)=>{
                     if (err) reject(`${err}`);
-                    resolve({ success: true });
+                    else resolve({ success: true });
                 })
         });
     }

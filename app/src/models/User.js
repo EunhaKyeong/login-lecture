@@ -9,17 +9,19 @@ class User {
     }
 
     async login() {
-        const { id, pwd } = await UserStorage.getUserInfo(this.body.id);
-
-        if (id) {
-            if (this.body.pwd===pwd) {
-                return { success: true };
-            }
-            else {
-                return { success: false, msg: "비밀번호가 틀렸습니다."};
-            }
-        } else {
-            return { success: false, msg: "아이디가 존재하지 않습니다."};
+        try {
+            const userInfo = await UserStorage.getUserInfo(this.body.id);
+            if (userInfo) {
+                if (userInfo.pwd===this.body.pwd) {
+                    return { success: true };
+                } else {
+                    return { success: false, msg: "비밀번호가 틀렸습니다." };
+                }
+            } else {
+                return { success: false, msg: "존재하지 않는 아이디입니다." };
+            }    
+        } catch(err) {
+            return { success: false, err};
         }
     }
 
@@ -31,7 +33,7 @@ class User {
             try {
                 return await UserStorage.registerUser(this.body);
             } catch(err) {
-                return { success: false, msg: err };
+                return { success: false, err };
             }
             
         }

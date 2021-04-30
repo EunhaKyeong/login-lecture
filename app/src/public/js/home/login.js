@@ -11,7 +11,12 @@ function login() {
         "id": id.value,
         "pwd": pwd.value
     };
-
+    if (!req.id) {
+        return alert("아이디를 입력해주세요!");
+    } else if (!req.pwd) {
+        return alert("비밀번호를 입력해주세요!");
+    }
+    
     fetch("/login", {
         method: "POST",
         headers: {
