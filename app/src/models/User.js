@@ -24,12 +24,16 @@ class User {
     }
 
     async register() {
-        const result = await UserStorage.registerUser(this.body);
-
-        if (result) {
-            return { success: true };
-        } else {
+        const check = await UserStorage.getUserInfo(this.body.id);
+        if (check) {
             return { success: false, msg: "이미 존재하는 아이디입니다." };
+        } else {
+            try {
+                return await UserStorage.registerUser(this.body);
+            } catch(err) {
+                return { success: false, msg: err };
+            }
+            
         }
     }
 }
